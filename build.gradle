@@ -2,6 +2,7 @@ plugins {
     id 'net.fabricmc.fabric-loom' version '1.17-SNAPSHOT'
     id 'maven-publish'
     id 'com.modrinth.minotaur' version '2.9.0'
+    id 'net.darkhax.curseforgegradle' version '1.3.33'
 }
 
 version = project.mod_version
@@ -78,7 +79,7 @@ modrinth {
     uploadFile = tasks.jar
     gameVersions = [project.minecraft_version]
     loaders = ["fabric"]
-    changelog = "Initial public release for Minecraft ${project.minecraft_version}."
+    changelog = "Adds verified CurseForge publishing metadata and keeps cleanup safe and compatible with Minecraft ${project.minecraft_version}, Fabric, and Java 25."
     syncBodyFrom = rootProject.file("README.md").text
     dependencies {
         required.project "fabric-api"
@@ -86,3 +87,28 @@ modrinth {
 }
 
 tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
+
+def curseForgeToken = System.getenv("CURSEFORGE_TOKEN")
+def curseForgeProjectId = System.getenv("CURSEFORGE_PROJECT_ID")
+
+if (curseForgeToken && curseForgeProjectId) {
+    tasks.register("publishCurseForge", net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+        apiToken = curseForgeToken
+        def mainFile = upload(curseForgeProjectId, tasks.jar)
+        mainFile.displayName = "Clear Files ${project.version}"
+        mainFile.releaseType = "release"
+        mainFile.changelogType = "markdown"
+        mainFile.changelog = """Adds verified CurseForge publishing metadata and keeps cleanup safe and compatible with Minecraft ${project.minecraft_version}, Fabric, and Java 25."""
+        mainFile.addGameVersion(project.minecraft_version)
+        mainFile.addModLoader("Fabric")
+        mainFile.addEnvironment("Client")
+        mainFile.addJavaVersion("Java 25")
+        mainFile.addRequirement("fabric-api")
+    }
+} else {
+    tasks.register("publishCurseForge") {
+        doLast {
+            throw new GradleException("CURSEFORGE_TOKEN and CURSEFORGE_PROJECT_ID are required")
+        }
+    }
+}
