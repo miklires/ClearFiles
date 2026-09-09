@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "clear_files",
+  "version": "${version}",
+  "name": "Clear Files",
+  "description": "Safely keeps Minecraft logs and crash reports under control.",
+  "authors": ["miklires"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["dev.miklires.clearfiles.client.ClearFilesClient"]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
