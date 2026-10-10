@@ -79,7 +79,7 @@ modrinth {
     uploadFile = tasks.jar
     gameVersions = [project.minecraft_version]
     loaders = ["fabric"]
-    changelog = "Adds verified CurseForge publishing metadata and keeps cleanup safe and compatible with Minecraft ${project.minecraft_version}, Fabric, and Java 25."
+    changelog = "Adds Minecraft ${project.minecraft_version} compatibility with Fabric Loader 0.19.5, Fabric API 0.162.0, and Java 25."
     syncBodyFrom = rootProject.file("README.md").text
     dependencies {
         required.project "fabric-api"
@@ -98,7 +98,7 @@ if (curseForgeToken && curseForgeProjectId) {
         mainFile.displayName = "Clear Files ${project.version}"
         mainFile.releaseType = "release"
         mainFile.changelogType = "markdown"
-        mainFile.changelog = """Adds verified CurseForge publishing metadata and keeps cleanup safe and compatible with Minecraft ${project.minecraft_version}, Fabric, and Java 25."""
+        mainFile.changelog = """Adds Minecraft ${project.minecraft_version} compatibility with Fabric Loader 0.19.5, Fabric API 0.162.0, and Java 25."""
         mainFile.addGameVersion(project.minecraft_version)
         mainFile.addModLoader("Fabric")
         mainFile.addEnvironment("Client")

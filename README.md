@@ -34,7 +34,7 @@ Numeric values are clamped to safe ranges. An unreadable config is preserved as 
 
 ## Requirements
 
-- Minecraft Java Edition 26.2
+- Minecraft Java Edition 26.3
 - Fabric Loader 0.19.3 or newer
 - Fabric API
 - Java 25
